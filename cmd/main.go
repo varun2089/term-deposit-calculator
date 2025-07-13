@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"os"
+	"term-deposit-calculator/internal/calculator"
 	"term-deposit-calculator/internal/config"
 	"term-deposit-calculator/internal/logger"
 
@@ -9,6 +11,16 @@ import (
 )
 
 func RunApp(cfg config.Config, log zerolog.Logger) error {
+	td := calculator.TermDeposit{
+		StartDeposit:  cfg.StartDeposit,
+		InterestRate:  cfg.InterestRate,
+		InvestmentTerm: cfg.InvestmentTerm,
+		InterestPaid:  cfg.InterestPaid,
+	}
+
+	finalBalance := td.CalculateFinalBalance()
+
+	fmt.Printf("Final balance: $%.2f\n", finalBalance)
 
 	return nil
 }

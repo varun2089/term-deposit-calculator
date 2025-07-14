@@ -11,17 +11,20 @@ import (
 )
 
 func RunApp(cfg config.Config, log zerolog.Logger) error {
-	td := calculator.TermDeposit{
-		StartDeposit:  cfg.StartDeposit,
-		InterestRate:  cfg.InterestRate,
+	termDeposit := calculator.TermDeposit{
+		StartDeposit:   cfg.StartDeposit,
+		InterestRate:   cfg.InterestRate,
 		InvestmentTerm: cfg.InvestmentTerm,
-		InterestPaid:  cfg.InterestPaid,
+		InterestPaid:   cfg.InterestPaid,
 	}
 
-	finalBalance := td.CalculateFinalBalance()
+	finalBalance, err := termDeposit.CalculateFinalBalance()
+	if err != nil {
+		return fmt.Errorf("failed to calculate final balance: %w", err)
 
-	fmt.Printf("Final balance: $%.2f\n", finalBalance)
+	}
 
+	log.Info().Msgf("Final balance: $%d, interest paid %s", int(finalBalance), cfg.InterestPaid)
 	return nil
 }
 

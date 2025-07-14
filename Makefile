@@ -25,4 +25,8 @@ build: clean install
 
 run: install
 	@echo "Running main.go..."
-	go run cmd/main.go
+	go run cmd/main.go \
+		--start-deposit=2000 \
+		--interest-rate=8 \
+		--investment-term=3 \
+		--interest-paid=quarterly
